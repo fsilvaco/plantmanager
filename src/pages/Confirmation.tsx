@@ -1,15 +1,20 @@
+import { RouteProp } from "@react-navigation/core";
 import React from "react";
 import { SafeAreaView, View, Text, StyleSheet } from "react-native";
 import { Button } from "../components/Button";
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
 
-export function Confirmation() {
+interface ConfirmationProps {
+  route: RouteProp<{ params: { name: string } }, "params">;
+}
+
+export function Confirmation({ route }: ConfirmationProps) {
   return (
     <SafeAreaView style={s.container}>
       <View style={s.wrapper}>
         <Text style={s.emoji}>😃</Text>
-        <Text style={s.title}>Prontinho</Text>
+        <Text style={s.title}>Prontinho, {route.params.name}</Text>
         <Text style={s.subtitle}>
           Agora vamos começar a cuidar das suas plantinhas com muito cuidado.
         </Text>

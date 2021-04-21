@@ -12,10 +12,14 @@ import { Button } from "../components/Button";
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
 
+import { useNavigation } from "@react-navigation/core";
+
 export function UserIdentification() {
   const [isFocused, setIsFocused] = React.useState(false);
   const [isFilled, setIsFilled] = React.useState(false);
   const [name, setName] = React.useState<String>();
+
+  const navigation = useNavigation();
 
   function handleInputBlur() {
     setIsFocused(false);
@@ -29,6 +33,10 @@ export function UserIdentification() {
   function handleInputChange(value: string) {
     setIsFilled(!!value);
     setName(value);
+  }
+
+  function handleSubmit() {
+    navigation.navigate("Confirmation", { name: name });
   }
 
   return (
@@ -54,7 +62,7 @@ export function UserIdentification() {
               onChangeText={handleInputChange}
             />
             <View style={s.footer}>
-              <Button title="Continuar" />
+              <Button onPress={handleSubmit} title="Continuar" />
             </View>
           </View>
         </View>

@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
 import AppLoading from "expo-app-loading";
-import { UserIdentification } from "./src/pages/UserIdentification";
+
+import Routes from "./src/routes";
 
 import {
   useFonts,
@@ -18,14 +18,5 @@ export default function App() {
 
   if (!isFontsLoaded) return <AppLoading />;
 
-  return <Confirmation />;
+  return <Routes />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
