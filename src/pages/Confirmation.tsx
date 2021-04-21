@@ -1,6 +1,6 @@
-import { RouteProp } from "@react-navigation/core";
 import React from "react";
 import { SafeAreaView, View, Text, StyleSheet } from "react-native";
+import { RouteProp, useNavigation } from "@react-navigation/core";
 import { Button } from "../components/Button";
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
@@ -10,6 +10,12 @@ interface ConfirmationProps {
 }
 
 export function Confirmation({ route }: ConfirmationProps) {
+  const navigation = useNavigation();
+
+  function goToPlantSelect() {
+    navigation.navigate("PlantSelect");
+  }
+
   return (
     <SafeAreaView style={s.container}>
       <View style={s.wrapper}>
@@ -19,7 +25,7 @@ export function Confirmation({ route }: ConfirmationProps) {
           Agora vamos começar a cuidar das suas plantinhas com muito cuidado.
         </Text>
         <View style={s.footer}>
-          <Button title="Continuar" />
+          <Button title="Continuar" onPress={goToPlantSelect} />
         </View>
       </View>
     </SafeAreaView>
