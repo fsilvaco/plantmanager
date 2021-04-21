@@ -1,11 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView, View, Text, FlatList, StyleSheet } from "react-native";
 import { Header } from "../components/Header";
 import { Tab } from "../components/Tab";
+import api from "../services/api";
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
 
+interface EnvironmentsProps {
+  key: string;
+  title: string;
+}
+
 export function PlantSelect() {
+  const [environments, setEnvironments] = React.useState<EnvironmentsProps[]>(
+    []
+  );
+
+  useEffect(() => {
+    async function getEnvironments() {
+      const { data } = await api.get("plants_environments");
+      setEnvironments([
+        {
+          key: "all",
+          title: "Todos",
+        },
+        ...data,
+      ]);
+    }
+
+    getEnvironments();
+  }, []);
+
   return (
     <SafeAreaView style={s.container}>
       <View style={s.wrapper}>
@@ -15,8 +40,8 @@ export function PlantSelect() {
       </View>
       <View>
         <FlatList
-          data={[1, 2, 3, 4, 5, 6, 7, 8]}
-          renderItem={() => <Tab title="Sala" />}
+          data={environments}
+          renderItem={({ item }) => <Tab title={item.title} />}
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={s.tabList}
