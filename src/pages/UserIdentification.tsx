@@ -7,6 +7,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
 import { Button } from "../components/Button";
 import colors from "../styles/colors";
@@ -36,6 +37,10 @@ export function UserIdentification() {
   }
 
   function handleSubmit() {
+
+    if(!name)
+      return Alert.alert("Me diz como posso chamar você 🥲")
+
     navigation.navigate("Confirmation", { name: name });
   }
 
