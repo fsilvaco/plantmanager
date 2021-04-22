@@ -113,6 +113,7 @@ export function PlantSelect() {
       <View>
         <FlatList
           data={environments}
+          keyExtractor={item=> String(item.key)}
           renderItem={({ item }) => (
             <Tab
               title={item.title}
@@ -128,6 +129,7 @@ export function PlantSelect() {
       <View style={s.plants}>
         <FlatList
           data={filteredPlants}
+          keyExtractor={item=> String(item.id)}
           renderItem={({ item }) => <PlantCardPrimary data={item} />}
           showsVerticalScrollIndicator={false}
           numColumns={2}
