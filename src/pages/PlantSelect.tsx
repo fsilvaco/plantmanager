@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { SafeAreaView, View, Text, FlatList, StyleSheet } from "react-native";
 import { Header } from "../components/Header";
+import { Load } from "../components/Load";
 import { PlantCardPrimary } from "../components/PlantCardPrimary";
 import { Tab } from "../components/Tab";
 import api from "../services/api";
@@ -29,6 +30,7 @@ export function PlantSelect() {
   const [plants, setPlants] = React.useState<PlantsProps[]>([]);
   const [filteredPlants, setFilteredPlants] = React.useState<PlantsProps[]>([]);
   const [environmentsSelected, setEnvironmentsSelected] = React.useState("all");
+  const [isLoading, setIsLoading] = React.useState(true)
 
   function handleEnvironment(environments: string) {
 
@@ -66,10 +68,15 @@ export function PlantSelect() {
     async function getPlants() {
       const { data } = await api.get("plants?_sort=name&_order=asc");
       setPlants(data);
+      setFilteredPlants(data);
+      setIsLoading(false)
     }
 
     getPlants();
   }, []);
+
+  if (isLoading) 
+     return <Load />
 
   return (
     <SafeAreaView style={s.container}>
