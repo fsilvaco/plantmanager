@@ -1,5 +1,13 @@
+import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
-import { SafeAreaView, View, Text, FlatList, ActivityIndicator, StyleSheet } from "react-native";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  StyleSheet,
+} from "react-native";
 import { Header } from "../components/Header";
 import { Load } from "../components/Load";
 import { PlantCardPrimary } from "../components/PlantCardPrimary";
@@ -26,18 +34,20 @@ interface PlantsProps {
 }
 
 export function PlantSelect() {
-  const [environments, setEnvironments] = React.useState<EnvironmentsProps[]>([]);
+  const [environments, setEnvironments] = React.useState<EnvironmentsProps[]>(
+    []
+  );
   const [plants, setPlants] = React.useState<PlantsProps[]>([]);
   const [filteredPlants, setFilteredPlants] = React.useState<PlantsProps[]>([]);
   const [environmentsSelected, setEnvironmentsSelected] = React.useState("all");
-  const [isLoading, setIsLoading] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState(true);
 
-  const [page, setPage] = React.useState(1)
-  const [loadingMore, setLoadingMore] = React.useState(false)
-  const [loadedAll, setloadedAll] = React.useState(false)
+  const [page, setPage] = React.useState(1);
+  const [loadingMore, setLoadingMore] = React.useState(false);
+
+  const navigation = useNavigation();
 
   function handleEnvironment(environments: string) {
-
     setEnvironmentsSelected(environments);
 
     if (environments == "all") {
@@ -52,31 +62,34 @@ export function PlantSelect() {
   }
 
   async function fetchPlants() {
-    const { data } = await api.get(`plants?_sort=name&_order=asc&_page=${page}&_limit=8`);
+    const { data } = await api.get(
+      `plants?_sort=name&_order=asc&_page=${page}&_limit=8`
+    );
 
-    if(!data)
-      return setIsLoading(true)
+    if (!data) return setIsLoading(true);
 
-    if(page > 1) {
-      setPlants(oldValue => [...oldValue, ...data]) 
-      setFilteredPlants(oldValue => [...oldValue, ...data]) 
+    if (page > 1) {
+      setPlants((oldValue) => [...oldValue, ...data]);
+      setFilteredPlants((oldValue) => [...oldValue, ...data]);
     } else {
       setPlants(data);
       setFilteredPlants(data);
-    } 
+    }
 
-
-    setIsLoading(false)
-    setLoadingMore(false)
+    setIsLoading(false);
+    setLoadingMore(false);
   }
 
   function handleFetchMore(distance: number) {
-    if (distance < 1)
-      return
-    
-    setLoadingMore(true)
-    setPage(oldValue => oldValue + 1)
-    fetchPlants()
+    if (distance < 1) return;
+
+    setLoadingMore(true);
+    setPage((oldValue) => oldValue + 1);
+    fetchPlants();
+  }
+
+  function handlePlantSelected(plant: PlantsProps) {
+    navigation.navigate("PlantSave", { plant });
   }
 
   useEffect(() => {
@@ -100,8 +113,7 @@ export function PlantSelect() {
     fetchPlants();
   }, []);
 
-  if (isLoading) 
-     return <Load />
+  if (isLoading) return <Load />;
 
   return (
     <SafeAreaView style={s.container}>
@@ -113,7 +125,7 @@ export function PlantSelect() {
       <View>
         <FlatList
           data={environments}
-          keyExtractor={item=> String(item.key)}
+          keyExtractor={(item) => String(item.key)}
           renderItem={({ item }) => (
             <Tab
               title={item.title}
@@ -129,19 +141,21 @@ export function PlantSelect() {
       <View style={s.plants}>
         <FlatList
           data={filteredPlants}
-          keyExtractor={item=> String(item.id)}
-          renderItem={({ item }) => <PlantCardPrimary data={item} />}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => (
+            <PlantCardPrimary
+              onPress={() => handlePlantSelected(item)}
+              data={item}
+            />
+          )}
           showsVerticalScrollIndicator={false}
           numColumns={2}
           onEndReachedThreshold={0.1}
-          onEndReached={({distanceFromEnd}) => {
-            handleFetchMore(distanceFromEnd)
+          onEndReached={({ distanceFromEnd }) => {
+            handleFetchMore(distanceFromEnd);
           }}
           ListFooterComponent={
-            loadingMore ?
-            <ActivityIndicator color={colors.green}/>
-            : 
-            <></>
+            loadingMore ? <ActivityIndicator color={colors.green} /> : <></>
           }
         />
       </View>
