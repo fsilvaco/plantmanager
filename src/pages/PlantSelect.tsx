@@ -12,6 +12,7 @@ import { Header } from "../components/Header";
 import { Load } from "../components/Load";
 import { PlantCardPrimary } from "../components/PlantCardPrimary";
 import { Tab } from "../components/Tab";
+import { PlantProps } from "../libs/storage";
 import api from "../services/api";
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
@@ -20,25 +21,12 @@ interface EnvironmentsProps {
   key: string;
   title: string;
 }
-interface PlantsProps {
-  id: string;
-  name: string;
-  about: string;
-  water_tips: string;
-  photo: string;
-  environments: [string];
-  frequency: {
-    times: string;
-    repeat_every: string;
-  };
-}
-
 export function PlantSelect() {
   const [environments, setEnvironments] = React.useState<EnvironmentsProps[]>(
     []
   );
-  const [plants, setPlants] = React.useState<PlantsProps[]>([]);
-  const [filteredPlants, setFilteredPlants] = React.useState<PlantsProps[]>([]);
+  const [plants, setPlants] = React.useState<PlantProps[]>([]);
+  const [filteredPlants, setFilteredPlants] = React.useState<PlantProps[]>([]);
   const [environmentsSelected, setEnvironmentsSelected] = React.useState("all");
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -88,7 +76,7 @@ export function PlantSelect() {
     fetchPlants();
   }
 
-  function handlePlantSelected(plant: PlantsProps) {
+  function handlePlantSelected(plant: PlantProps) {
     navigation.navigate("PlantSave", { plant });
   }
 

@@ -19,20 +19,10 @@ import { Button } from "../components/Button";
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
 import { format, isBefore } from "date-fns";
+import { PlantProps } from "../libs/storage";
 
 interface Params {
-  plant: {
-    id: string;
-    name: string;
-    about: string;
-    water_tips: string;
-    photo: string;
-    environments: [string];
-    frequency: {
-      times: string;
-      repeat_every: string;
-    };
-  };
+  plant: PlantProps;
 }
 
 export function PlantSave() {
