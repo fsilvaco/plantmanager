@@ -14,7 +14,7 @@ import colors from "../styles/colors";
 import fonts from "../styles/fonts";
 
 import { useNavigation } from "@react-navigation/core";
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function UserIdentification() {
   const [isFocused, setIsFocused] = React.useState(false);
@@ -38,13 +38,22 @@ export function UserIdentification() {
   }
 
   async function handleSubmit() {
+    if (!name) return Alert.alert("Me diz como posso chamar você 🥲");
 
-    if(!name)
-      return Alert.alert("Me diz como posso chamar você 🥲")
+    try {
+      await AsyncStorage.setItem("@plantmanager:user", name);
+    } catch {
+      return Alert.alert("Não foi possivel salvar o seu nome.");
+    }
 
-      await AsyncStorage.setItem("@plantmanager:user", name)
-
-    navigation.navigate("Confirmation");
+    navigation.navigate("Confirmation", {
+      title: "Prontinho!",
+      subtitle:
+        "Agora vamos começar a cuidar das suas plantinhas com muito cuidado.",
+      buttonTitle: "Começar",
+      icon: "smile",
+      nextScreen: "PlantSelect",
+    });
   }
 
   return (
