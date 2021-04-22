@@ -14,11 +14,12 @@ import colors from "../styles/colors";
 import fonts from "../styles/fonts";
 
 import { useNavigation } from "@react-navigation/core";
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export function UserIdentification() {
   const [isFocused, setIsFocused] = React.useState(false);
   const [isFilled, setIsFilled] = React.useState(false);
-  const [name, setName] = React.useState<String>();
+  const [name, setName] = React.useState<string>();
 
   const navigation = useNavigation();
 
@@ -36,12 +37,14 @@ export function UserIdentification() {
     setName(value);
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
 
     if(!name)
       return Alert.alert("Me diz como posso chamar você 🥲")
 
-    navigation.navigate("Confirmation", { name: name });
+      await AsyncStorage.setItem("@plantmanager:user", name)
+
+    navigation.navigate("Confirmation");
   }
 
   return (

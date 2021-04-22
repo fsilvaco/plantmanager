@@ -5,11 +5,7 @@ import { Button } from "../components/Button";
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
 
-interface ConfirmationProps {
-  route: RouteProp<{ params: { name: string } }, "params">;
-}
-
-export function Confirmation({ route }: ConfirmationProps) {
+export function Confirmation() {
   const navigation = useNavigation();
 
   function goToPlantSelect() {
@@ -20,7 +16,7 @@ export function Confirmation({ route }: ConfirmationProps) {
     <SafeAreaView style={s.container}>
       <View style={s.wrapper}>
         <Text style={s.emoji}>😃</Text>
-        <Text style={s.title}>Prontinho, {route.params.name}</Text>
+        <Text style={s.title}>Prontinho!</Text>
         <Text style={s.subtitle}>
           Agora vamos começar a cuidar das suas plantinhas com muito cuidado.
         </Text>
