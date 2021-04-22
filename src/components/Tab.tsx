@@ -26,7 +26,7 @@ const s = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 12,
-    marginRight: 5,
+    margin: 5,
   },
   buttonActive: {
     backgroundColor: colors.green_light,
