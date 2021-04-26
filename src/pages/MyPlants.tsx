@@ -10,6 +10,7 @@ import { formatDistance } from "date-fns";
 import { pt } from "date-fns/locale";
 import fonts from "../styles/fonts";
 import { PlantCardSecondary } from "../components/PlantCardSecondary";
+import { Load } from "../components/Load";
 
 export function MyPlants() {
   const [myPlants, setMyPlants] = useState<PlantProps[]>([]);
@@ -35,6 +36,8 @@ export function MyPlants() {
     }
     loadStorageData();
   }, []);
+
+  if (isLoading) return <Load />;
 
   return (
     <View style={s.container}>
